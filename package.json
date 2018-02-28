@@ -1,0 +1,29 @@
+{
+  "name": "hubot-irc-alert",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Hassan Ali <helfi92@gmail.com>",
+  "description": "A simple helpful robot that alerts you when something is wrong",
+  "dependencies": {
+    "coffee-script": "^1.12.6",
+    "hubot": "^2.19.0",
+    "hubot-diagnostics": "0.0.2",
+    "hubot-help": "^0.2.2",
+    "hubot-irc": "^0.4.0"
+  },
+  "scripts": {
+    "start": "bin/hubot",
+    "test": "mocha test/*_test.js",
+    "lint": "eslint src/*.js test/*js"
+  },
+  "engines": {
+    "node": "^8.9.4",
+    "yarn": "^1.3.2"
+  },
+  "devDependencies": {
+    "eslint-config-taskcluster": "^3.1.0",
+    "got": "^8.2.0",
+    "hubot-test-helper": "^1.8.1",
+    "mocha": "^5.0.1"
+  }
+}
