@@ -29,7 +29,7 @@
 //
 // Author:
 //   helfi92
-module.exports = function(robot) {
+module.exports = (robot) => {
   const alertFromRequest = (req) => {
     let alert = req.body.payload ? req.body.payload : req.body;
 
@@ -41,47 +41,38 @@ module.exports = function(robot) {
   };
 
   const messageRooms = (message) => {
-    const ircRooms = process.env['HUBOT_IRC_ROOMS'];
+    const ircRooms = process.env.HUBOT_IRC_ROOMS;
 
     if (!ircRooms) {
       return;
     }
 
-    const rooms = ircRooms.split(',[\s]*');
+    const rooms = ircRooms.split(/,[\s]*/);
 
     rooms.forEach(room => robot.messageRoom(room, message));
   };
 
-  robot.router.post('/hubot/sentry', function(req, res) {
+  robot.router.post('/hubot/sentry', (req, res) => {
     const data = alertFromRequest(req);
-    const message = `[Sentry] Alert from ${data.project} ${data.project_name}\n` +
-      `[Sentry] Culprit: ${data.culprit}\n` +
-      `[Sentry] Level: ${data.level}\n` +
-      `[Sentry] Message: ${data.message}\n` +
-      `[Sentry] Link: ${data.url}`;
+    const message = `[Sentry] ${data.project} ${data.project_name}: ${data.message} ${data.url}`;
 
     messageRooms(message);
 
     return res.status(200).send(message);
   });
 
-  robot.router.post('/hubot/signalfx', function(req, res) {
+  robot.router.post('/hubot/signalfx', (req, res) => {
     const data = alertFromRequest(req);
-    const message = `[Signal FX] Severity: ${data.severity}\n` +
-      `[Signal FX] Rule: ${data.rule}\n` +
-      `[Signal FX] Description: ${data.description}\n` +
-      `[Signal FX] Link: ${data.detectorUrl}`;
+    const message = `[Signal FX] ${data.rule}: ${data.description} ${data.detectorUrl}`;
 
     messageRooms(message);
 
     return res.status(200).send(message);
   });
 
-  robot.router.post('/hubot/papertrail', function(req, res) {
+  robot.router.post('/hubot/papertrail', (req, res) => {
     const data = alertFromRequest(req);
-    const message = `[Papertrail] Name: ${data.saved_search.name}\n` +
-    `[Papertrail] Query: ${data.saved_search.query}\n` +
-    `[Papertrail] URL: ${data.saved_search.html_search_url}`;
+    const message = `[Papertrail] ${data.saved_search.name}: ${data.saved_search.query} ${data.saved_search.html_search_url}`;
 
     messageRooms(message);
 
