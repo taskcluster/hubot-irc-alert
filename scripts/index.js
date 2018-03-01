@@ -58,7 +58,9 @@ module.exports = (robot) => {
 
     messageRooms(message);
 
-    return res.status(200).send(message);
+    return res
+      .status(200)
+      .send(message);
   });
 
   robot.router.post('/hubot/signalfx', (req, res) => {
@@ -67,7 +69,9 @@ module.exports = (robot) => {
 
     messageRooms(message);
 
-    return res.status(200).send(message);
+    return res
+      .status(200)
+      .send(message);
   });
 
   robot.router.post('/hubot/papertrail', (req, res) => {
@@ -76,6 +80,8 @@ module.exports = (robot) => {
 
     messageRooms(message);
 
-    return res.status(200).send(message);
+    return res
+      .status(200)
+      .send(message);
   });
 };
