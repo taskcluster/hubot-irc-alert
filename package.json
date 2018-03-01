@@ -1,0 +1,32 @@
+{
+  "name": "hubot-irc-alert",
+  "version": "0.0.0",
+  "private": true,
+  "author": "Hassan Ali <helfi92@gmail.com>",
+  "license": "MPL-2.0",
+  "description": "A simple helpful robot that alerts you when something is wrong",
+  "dependencies": {
+    "coffee-script": "^1.12.6",
+    "hubot": "^2.19.0",
+    "hubot-diagnostics": "0.0.2",
+    "hubot-help": "^0.2.2",
+    "hubot-irc": "^0.4.0"
+  },
+  "scripts": {
+    "start": "bin/hubot",
+    "test": "neutrino test",
+    "lint": "neutrino lint"
+  },
+  "engines": {
+    "node": "^8.9.4",
+    "yarn": "^1.3.2"
+  },
+  "devDependencies": {
+    "@neutrinojs/airbnb-base": "^8.1.2",
+    "@neutrinojs/mocha": "^8.1.2",
+    "@neutrinojs/node": "^8.1.2",
+    "got": "^8.2.0",
+    "hubot-test-helper": "^1.8.1",
+    "neutrino": "^8.1.2"
+  }
+}
