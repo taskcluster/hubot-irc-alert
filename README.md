@@ -40,7 +40,7 @@ And the following are optional:
 For more details on accepted environment variables, refer
 to [hubot-irc#configuring-the-adapter](https://github.com/nandub/hubot-irc/blob/master/README.md#configuring-the-adapter).
 
-The fastest way to get started local development is to update the `.env` file located in the root of the repo.
+The fastest way to get started local development is to modify the `.env` file located in the root of the repo.
 Add environment-specific variables on new lines in the form of `NAME=VALUE`.
 
 _Example: Configuring for mozilla's taskcluster-bots IRC channel in the `.env` file_

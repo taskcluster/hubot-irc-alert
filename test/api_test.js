@@ -93,7 +93,7 @@ describe('Array', function() {
       const bugs = await blockers({
         product: 'Taskcluster',
         bug_severity: 'blocker',
-        bug_status: ['FIXED'],
+        bug_status: 'FIXED',
         priority: 'P1',
       });
 
