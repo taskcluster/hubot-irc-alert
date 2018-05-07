@@ -86,4 +86,17 @@ describe('Array', function() {
       assert(response.body.includes('[Papertrail]'));
     });
   });
+
+  describe('bugzilla', () => {
+    const BUGZILLA_BASE_URL = 'https://bugzilla.mozilla.org';
+    const FIRST_BUG_NUMBER = 35;
+
+    it('should fetch the first bug ever filed on bugzilla', async () => {
+      const response = await got.get(`${BUGZILLA_BASE_URL}/rest/bug/${FIRST_BUG_NUMBER}`, {
+        json: true
+      });
+
+      assert(response.body.bugs[0].id === FIRST_BUG_NUMBER);
+    });
+  });
 });

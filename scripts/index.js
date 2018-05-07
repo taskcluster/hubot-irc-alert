@@ -20,6 +20,8 @@
 //   HUBOT_IRC_USESSL - Optional
 //   HUBOT_IRC_PRIVATE - Optional
 //   HUBOT_IRC_USESASL - Optional
+//   BUGZILLA_BLOCKER_PRODUCT - Optional
+//   BUGZILLA_BLOCKER_TIME_PERIOD - Optional
 //
 // Commands:
 //   None
@@ -29,6 +31,10 @@
 //
 // Author:
 //   helfi92
+const got = require('got');
+
+const BUGZILLA_BASE_URL = 'https://bugzilla.mozilla.org';
+
 module.exports = (robot) => {
   const alertFromRequest = (req) => {
     let alert = req.body.payload ? req.body.payload : req.body;
@@ -51,6 +57,29 @@ module.exports = (robot) => {
 
     rooms.forEach(room => robot.messageRoom(room, message));
   };
+
+  // Notify HUBOT_IRC_ROOMS if someone files a blocker bug against BUGZILLA_BLOCKER_PRODUCT.
+  // Inform periodically until someone either takes the bug to fix it or downgrades its severity.
+  if (process.env.BUGZILLA_BLOCKER_PRODUCT) {
+    setInterval(async () => {
+      try {
+        const { body: { bugs } } = await got.get(`${BUGZILLA_BASE_URL}/rest/bug`, {
+          json: true,
+          query: {
+            product: process.env.BUGZILLA_BLOCKER_PRODUCT,
+            bug_severity: 'blocker',
+            resolution: '---',
+            bug_status: ['NEW', 'REOPENED'],
+            priority: ['--', 'P1', 'P2'],
+          },
+        });
+
+        bugs.map(bug => messageRooms(`[Blocker] ${bug.summary} https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}.`));
+      } catch (err) {
+        robot.logger.error(err);
+      }
+    }, process.env.BUGZILLA_BLOCKER_TIME_PERIOD || 5 * 60 * 1000);
+  }
 
   robot.router.post('/hubot/sentry', (req, res) => {
     const data = alertFromRequest(req);

@@ -2010,6 +2010,10 @@ dot-case@^2.1.0:
   dependencies:
     no-case "^2.2.0"
 
+dotenv@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-2.0.0.tgz#bd759c357aaa70365e01c96b7b0bec08a6e0d949"
+
 duplexer3@^0.1.4:
   version "0.1.4"
   resolved "https://registry.yarnpkg.com/duplexer3/-/duplexer3-0.1.4.tgz#ee01dd1cac0ed3cbc7fdbea37dc0a8f1ce002ce2"
@@ -3109,6 +3113,12 @@ https-browserify@^1.0.0:
 hubot-diagnostics@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/hubot-diagnostics/-/hubot-diagnostics-0.0.2.tgz#a042b2cdc9fd8f01583e105658130a6d8b9af386"
+
+hubot-dotenv@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hubot-dotenv/-/hubot-dotenv-1.0.0.tgz#6f9ef621bf31bdb22b6d79c48392737548d4a85a"
+  dependencies:
+    dotenv "2.0.0"
 
 hubot-help@^0.2.2:
   version "0.2.2"
