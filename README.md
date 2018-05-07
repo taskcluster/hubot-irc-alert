@@ -18,7 +18,7 @@ The following environment variables are required:
 And the following are optional:
 
 * `BUGZILLA_BLOCKER_PRODUCT`
-* `BUGZILLA_BLOCKER_TIME_PERIOD`
+* `BUGZILLA_BLOCKER_INTERVAL`
 * `HUBOT_IRC_PORT`
 * `HUBOT_IRC_USERNAME`
 * `HUBOT_IRC_PASSWORD`
@@ -35,17 +35,19 @@ And the following are optional:
 | Environment Variable | Description |
 | -------------------- | ----------- |
 | `BUGZILLA_BLOCKER_PRODUCT` | A Bugzilla product (e.g., Taskcluster). |
-| `BUGZILLA_BLOCKER_TIME_PERIOD` | The waiting interval (in milliseconds) before examining blocker bugs. If omitted it will default to 5 minutes. |
+| `BUGZILLA_BLOCKER_INTERVAL` | The waiting interval (in milliseconds) before examining blocker bugs.
 
 For more details on accepted environment variables, refer
 to [hubot-irc#configuring-the-adapter](https://github.com/nandub/hubot-irc/blob/master/README.md#configuring-the-adapter).
 
-To get started local development, create a `.env` file in the root of the repo.
+The fastest way to get started local development is to update the `.env` file located in the root of the repo.
 Add environment-specific variables on new lines in the form of `NAME=VALUE`.
 
 _Example: Configuring for mozilla's taskcluster-bots IRC channel in the `.env` file_
 
 ```bash
+BUGZILLA_BASE_URL="https://bugzilla.mozilla.org"
+BUGZILLA_BLOCKER_INTERVAL=300000
 HUBOT_IRC_SERVER="irc.mozilla.org"
 HUBOT_IRC_ROOMS="#taskcluster-bots"
 HUBOT_IRC_NICK="mrrobot"

@@ -16,7 +16,7 @@
   "scripts": {
     "start": "hubot-dotenv",
     "start:irc": "hubot-dotenv --adapter irc",
-    "test": "neutrino test",
+    "test": "neutrino test --require dotenv/config",
     "lint": "neutrino lint"
   },
   "engines": {

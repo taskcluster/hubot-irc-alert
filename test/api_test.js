@@ -1,10 +1,11 @@
 const Helper = require('hubot-test-helper');
 const assert = require('assert');
 const got = require('got');
-const {join} = require('path');
+const { join } = require('path');
+const blockers = require('../src/utils/blockers');
 
 const helper = new Helper(
-  join(__dirname, '..', 'scripts', 'index.js')
+  join(__dirname, '..', 'src', 'scripts', 'index.js')
 );
 
 const baseUrl = 'http://localhost:8080';
@@ -88,15 +89,15 @@ describe('Array', function() {
   });
 
   describe('bugzilla', () => {
-    const BUGZILLA_BASE_URL = 'https://bugzilla.mozilla.org';
-    const FIRST_BUG_NUMBER = 35;
-
-    it('should fetch the first bug ever filed on bugzilla', async () => {
-      const response = await got.get(`${BUGZILLA_BASE_URL}/rest/bug/${FIRST_BUG_NUMBER}`, {
-        json: true
+    it('should find fixed blocker bugs', async () => {
+      const bugs = await blockers({
+        product: 'Taskcluster',
+        bug_severity: 'blocker',
+        bug_status: ['FIXED'],
+        priority: 'P1',
       });
 
-      assert(response.body.bugs[0].id === FIRST_BUG_NUMBER);
+      assert(bugs.length > 0);
     });
   });
 });
