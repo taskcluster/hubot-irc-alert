@@ -68,7 +68,8 @@ via the third party. `hubot-irc-alert` offers the following endpoints URLs:
 
 ## Bugzilla Blocker Bugs
 
-If someone files a blocker bug against `BUGZILLA_BLOCKER_PRODUCT`, `hubot-irc-alert` will send periodic alerts until the bug is assigned or its severity is downgraded to P3 or below.
+If someone files a blocker bug against `BUGZILLA_BLOCKER_PRODUCT`, `hubot-irc-alert` will send alerts using
+an exponential backoff algorithm until the bug is assigned or its severity is downgraded to P3 or below.
 
 ## Contributing
 

@@ -6,6 +6,7 @@
   "license": "MPL-2.0",
   "description": "A simple helpful robot that alerts you when something is wrong",
   "dependencies": {
+    "backoff": "^2.5.0",
     "coffee-script": "^1.12.6",
     "got": "^8.2.0",
     "hubot": "^2.19.0",

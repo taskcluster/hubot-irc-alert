@@ -31,6 +31,7 @@
 //
 // Author:
 //   helfi92
+const backoff = require('backoff');
 const blockers = require('../utils/blockers');
 
 module.exports = (robot) => {
@@ -56,10 +57,17 @@ module.exports = (robot) => {
     rooms.forEach(room => robot.messageRoom(room, message));
   };
 
-  // Notify HUBOT_IRC_ROOMS if someone files a blocker bug against BUGZILLA_BLOCKER_PRODUCT.
-  // Inform periodically until someone either takes the bug to fix it or downgrades its severity.
-  if (process.env.BUGZILLA_BLOCKER_PRODUCT) {
-    setInterval(async () => {
+  const bugzillaBlockerListener = () => {
+    const exponentialBackoff = backoff.exponential({
+      initialDelay: parseInt(process.env.BUGZILLA_BLOCKER_INTERVAL, 10),
+      maxDelay: 3600000,
+      factor: 2,
+    });
+
+    // Start listening
+    exponentialBackoff.backoff();
+
+    exponentialBackoff.on('backoff', async () => {
       try {
         const bugs = await blockers({
           product: process.env.BUGZILLA_BLOCKER_PRODUCT,
@@ -69,11 +77,27 @@ module.exports = (robot) => {
           priority: ['--', 'P1', 'P2'],
         });
 
+        if (!bugs.length) {
+          exponentialBackoff.reset();
+          exponentialBackoff.backoff();
+        }
+
         bugs.map(bug => messageRooms(`[Blocker] ${bug.summary} https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}.`));
       } catch (err) {
         robot.logger.error(err);
       }
-    }, parseInt(process.env.BUGZILLA_BLOCKER_INTERVAL, 10));
+    });
+
+    // When backoff ends
+    exponentialBackoff.on('ready', () => {
+      exponentialBackoff.backoff();
+    });
+  };
+
+  // Notify HUBOT_IRC_ROOMS if someone files a blocker bug against BUGZILLA_BLOCKER_PRODUCT.
+  // Inform periodically until someone either takes the bug to fix it or downgrades its severity.
+  if (process.env.BUGZILLA_BLOCKER_PRODUCT) {
+    bugzillaBlockerListener();
   }
 
   robot.router.post('/hubot/sentry', (req, res) => {
