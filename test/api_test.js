@@ -1,10 +1,11 @@
 const Helper = require('hubot-test-helper');
 const assert = require('assert');
 const got = require('got');
-const {join} = require('path');
+const { join } = require('path');
+const blockers = require('../src/utils/blockers');
 
 const helper = new Helper(
-  join(__dirname, '..', 'scripts', 'index.js')
+  join(__dirname, '..', 'src', 'scripts', 'index.js')
 );
 
 const baseUrl = 'http://localhost:8080';
@@ -84,6 +85,19 @@ describe('Array', function() {
       });
 
       assert(response.body.includes('[Papertrail]'));
+    });
+  });
+
+  describe('bugzilla', () => {
+    it('should find fixed blocker bugs', async () => {
+      const bugs = await blockers({
+        product: 'Taskcluster',
+        bug_severity: 'blocker',
+        bug_status: 'FIXED',
+        priority: 'P1',
+      });
+
+      assert(bugs.length > 0);
     });
   });
 });

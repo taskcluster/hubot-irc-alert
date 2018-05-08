@@ -944,6 +944,12 @@ babylon@^6.18.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/babylon/-/babylon-6.18.0.tgz#af2f3b88fa6f5c1e4c634d1a0f8eac4f55b395e3"
 
+backoff@^2.5.0:
+  version "2.5.0"
+  resolved "https://registry.yarnpkg.com/backoff/-/backoff-2.5.0.tgz#f616eda9d3e4b66b8ca7fca79f695722c5f8e26f"
+  dependencies:
+    precond "0.2"
+
 balanced-match@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/balanced-match/-/balanced-match-1.0.0.tgz#89b4d199ab2bee49de164ea02b89ce462d71b767"
@@ -2009,6 +2015,10 @@ dot-case@^2.1.0:
   resolved "https://registry.yarnpkg.com/dot-case/-/dot-case-2.1.1.tgz#34dcf37f50a8e93c2b3bca8bb7fb9155c7da3bee"
   dependencies:
     no-case "^2.2.0"
+
+dotenv@2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/dotenv/-/dotenv-2.0.0.tgz#bd759c357aaa70365e01c96b7b0bec08a6e0d949"
 
 duplexer3@^0.1.4:
   version "0.1.4"
@@ -3109,6 +3119,12 @@ https-browserify@^1.0.0:
 hubot-diagnostics@0.0.2:
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/hubot-diagnostics/-/hubot-diagnostics-0.0.2.tgz#a042b2cdc9fd8f01583e105658130a6d8b9af386"
+
+hubot-dotenv@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/hubot-dotenv/-/hubot-dotenv-1.0.0.tgz#6f9ef621bf31bdb22b6d79c48392737548d4a85a"
+  dependencies:
+    dotenv "2.0.0"
 
 hubot-help@^0.2.2:
   version "0.2.2"
@@ -4675,6 +4691,10 @@ portfinder@^1.0.9:
 posix-character-classes@^0.1.0:
   version "0.1.1"
   resolved "https://registry.yarnpkg.com/posix-character-classes/-/posix-character-classes-0.1.1.tgz#01eac0fe3b5af71a2a6c02feabb8c1fef7e00eab"
+
+precond@0.2:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/precond/-/precond-0.2.3.tgz#aa9591bcaa24923f1e0f4849d240f47efc1075ac"
 
 prelude-ls@~1.1.2:
   version "1.1.2"

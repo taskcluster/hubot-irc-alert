@@ -20,6 +20,8 @@
 //   HUBOT_IRC_USESSL - Optional
 //   HUBOT_IRC_PRIVATE - Optional
 //   HUBOT_IRC_USESASL - Optional
+//   BUGZILLA_BLOCKER_PRODUCT - Optional
+//   BUGZILLA_BLOCKER_INTERVAL - Optional
 //
 // Commands:
 //   None
@@ -29,6 +31,9 @@
 //
 // Author:
 //   helfi92
+const backoff = require('backoff');
+const blockers = require('../utils/blockers');
+
 module.exports = (robot) => {
   const alertFromRequest = (req) => {
     let alert = req.body.payload ? req.body.payload : req.body;
@@ -51,6 +56,49 @@ module.exports = (robot) => {
 
     rooms.forEach(room => robot.messageRoom(room, message));
   };
+
+  const bugzillaBlockerListener = () => {
+    const exponentialBackoff = backoff.exponential({
+      initialDelay: parseInt(process.env.BUGZILLA_BLOCKER_INTERVAL, 10),
+      maxDelay: 3600000,
+      factor: 2,
+    });
+
+    // Start listening
+    exponentialBackoff.backoff();
+
+    exponentialBackoff.on('backoff', async () => {
+      try {
+        const bugs = await blockers({
+          product: process.env.BUGZILLA_BLOCKER_PRODUCT,
+          bug_severity: 'blocker',
+          resolution: '---',
+          bug_status: ['NEW', 'REOPENED'],
+          priority: ['--', 'P1', 'P2'],
+        });
+
+        if (!bugs.length) {
+          exponentialBackoff.reset();
+          exponentialBackoff.backoff();
+        }
+
+        bugs.map(bug => messageRooms(`[Blocker] ${bug.summary} https://bugzilla.mozilla.org/show_bug.cgi?id=${bug.id}.`));
+      } catch (err) {
+        robot.logger.error(err);
+      }
+    });
+
+    // When backoff ends
+    exponentialBackoff.on('ready', () => {
+      exponentialBackoff.backoff();
+    });
+  };
+
+  // Notify HUBOT_IRC_ROOMS if someone files a blocker bug against BUGZILLA_BLOCKER_PRODUCT.
+  // Inform periodically until someone either takes the bug to fix it or downgrades its severity.
+  if (process.env.BUGZILLA_BLOCKER_PRODUCT) {
+    bugzillaBlockerListener();
+  }
 
   robot.router.post('/hubot/sentry', (req, res) => {
     const data = alertFromRequest(req);

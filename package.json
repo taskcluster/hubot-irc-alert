@@ -6,15 +6,18 @@
   "license": "MPL-2.0",
   "description": "A simple helpful robot that alerts you when something is wrong",
   "dependencies": {
+    "backoff": "^2.5.0",
     "coffee-script": "^1.12.6",
+    "got": "^8.2.0",
     "hubot": "^2.19.0",
     "hubot-diagnostics": "0.0.2",
     "hubot-help": "^0.2.2",
     "hubot-irc": "^0.4.0"
   },
   "scripts": {
-    "start": "bin/hubot",
-    "test": "neutrino test",
+    "start": "hubot-dotenv",
+    "start:irc": "hubot-dotenv --adapter irc",
+    "test": "neutrino test --require dotenv/config",
     "lint": "neutrino lint"
   },
   "engines": {
@@ -25,7 +28,7 @@
     "@neutrinojs/airbnb-base": "^8.1.2",
     "@neutrinojs/mocha": "^8.1.2",
     "@neutrinojs/node": "^8.1.2",
-    "got": "^8.2.0",
+    "hubot-dotenv": "^1.0.0",
     "hubot-test-helper": "^1.8.1",
     "neutrino": "^8.1.2"
   }
