@@ -74,6 +74,7 @@ module.exports = (robot) => {
           bug_severity: 'blocker',
           resolution: '---',
           bug_status: ['NEW', 'REOPENED'],
+          assigned_to: encodeURIComponent('nobody@mozilla.org'),
           priority: ['--', 'P1', 'P2'],
         });
 
