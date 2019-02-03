@@ -76,6 +76,7 @@ module.exports = (robot) => {
           bug_status: ['NEW', 'REOPENED'],
           assigned_to: encodeURIComponent('nobody@mozilla.org'),
           priority: ['--', 'P1', 'P2'],
+          include_fields: ['summary', 'bug_id'],
         });
 
         if (!bugs.length) {
